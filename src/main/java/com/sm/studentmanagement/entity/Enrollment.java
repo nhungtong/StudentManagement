@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long enrollmentId;
 
     @ManyToOne
@@ -18,6 +19,6 @@ public class Enrollment {
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     private Class studentClass;
 
-    @Column(nullable = false)
+    @Column(name = "enrollment_date", nullable = false)
     private LocalDate enrollmentDate;
 }

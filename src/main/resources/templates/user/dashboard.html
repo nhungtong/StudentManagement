@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+<h1>Chào mừng</h1>
+<p>Tên người dùng của bạn là: <span th:text="${user.getUserName()}">Username</span></p>
+<p>Vai trò của bạn là: <span th:text="${user.getUserRole()}">Role</span>
+  <br>
+  <a href="/user/update" class="btn btn-primary">Cập nhật thông tin cá nhân</a>
+</body>
+</html>

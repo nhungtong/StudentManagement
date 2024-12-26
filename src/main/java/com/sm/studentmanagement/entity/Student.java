@@ -10,35 +10,33 @@ import java.util.List;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long studentId;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(name = "student_code", nullable = false, unique = true, length = 20)
     private String studentCode;
 
-    @Column(nullable = false, length = 100)
-    private String studentName;
-
-    @Column(nullable = false, length = 100)
+    @Column(name = "full_name", nullable = false, length = 100)
     private String studentFullname;
 
-    @Column(nullable = false)
+    @Column(name = "dob", nullable = false)
     private LocalDate studentBirthdate;
 
-    @Column(nullable = false, length = 10)
+    @Column(name = "gender", nullable = false, length = 10)
     private String studentGender;
 
-    @Column(nullable = false, length = 15)
+    @Column(name = "phone", length = 15)
     private String studentPhone;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "email", length = 100)
     private String studentEmail;
-
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "class_id", referencedColumnName = "id", nullable = false)
     private Class studentClass;
+
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 
     @ManyToMany
     @JoinTable(
@@ -62,14 +60,6 @@ public class Student {
 
     public void setStudentCode(String studentCode) {
         this.studentCode = studentCode;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
     }
 
     public String getStudentFullname() {
@@ -110,14 +100,6 @@ public class Student {
 
     public void setStudentEmail(String studentEmail) {
         this.studentEmail = studentEmail;
-    }
-
-    public Class getStudentClass() {
-        return studentClass;
-    }
-
-    public void setStudentClass(Class studentClass) {
-        this.studentClass = studentClass;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -4,25 +4,26 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "User")
+@Table(name = "\"user\"")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long userId;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(name = "username",nullable = false, unique = true, length = 50)
     private String userName;
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "password", nullable = false, length = 255)
     private String userPassword;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "role", nullable = false, length = 20)
     private String userRole;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "full_name", nullable = false, length = 100)
     private String userFullName;
 
-    @Column(unique = true, length = 100)
+    @Column(name = "email", unique = true, length = 100)
     private String userEmail;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

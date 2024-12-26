@@ -10,12 +10,13 @@ import java.util.List;
 public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long classId;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String className;
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "description", length = 255)
     private String classDescription;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
