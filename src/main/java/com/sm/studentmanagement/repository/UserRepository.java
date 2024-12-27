@@ -10,7 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.userName = :username")
     User findByUserName(@Param("username")String userName);
     boolean existsByUserName(String userName);
-    User findByUserId(Long userId);
     @Modifying
     @Query("UPDATE User u SET u.userName = :userName, u.userPassword = :userPassword,u.userEmail = :userEmail, u.userFullName = :userFullName WHERE u.userId = :userId")
     int updateUser(

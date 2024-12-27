@@ -1,5 +1,6 @@
 package com.sm.studentmanagement.service;
 
+import java.util.List;
 import java.util.Optional;
 import com.sm.studentmanagement.entity.User;
 import com.sm.studentmanagement.repository.UserRepository;
@@ -25,13 +26,15 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /// Lưu người dùng mới
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public void saveUser(User user) {
 //        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
         userRepository.save(user);
     }
 
-    // Tìm người dùng theo tên người dùng
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
@@ -62,22 +65,29 @@ public class UserService implements UserDetailsService {
         }
     }
 
-
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
     public boolean updateUser(Long userId, String userName, String userPassword, String email, String fullName) {
-        User existingUser = findByUserId(userId);  // Tìm người dùng từ cơ sở dữ liệu
-        if (existingUser == null) {
-            throw new IllegalArgumentException("Không tìm thấy người dùng với ID: " + userId);
-        }
+        User existingUser = findByUserId(userId);
+//        if (existingUser == null) {
+//            throw new IllegalArgumentException("Không tìm thấy người dùng với ID: " + userId);
+//        }
 
-        // Mã hóa mật khẩu mới nếu có
         String encodedPassword = (userPassword == null || userPassword.isEmpty()) ?
                 existingUser.getUserPassword() : passwordEncoder.encode(userPassword);
 
         int updated = userRepository.updateUser(userId, userName, encodedPassword, email, fullName);
-        return updated > 0;  // Trả về true nế
+        return updated > 0;
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
 }

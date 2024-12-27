@@ -38,6 +38,22 @@ public class Student {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
+    public Class getStudentClass() {
+        return studentClass;
+    }
+
+    public void setStudentClass(Class studentClass) {
+        this.studentClass = studentClass;
+    }
+
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "enrollment",
@@ -109,4 +125,6 @@ public class Student {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }

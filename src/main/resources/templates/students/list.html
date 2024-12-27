@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+</head>
+<body>
+<h1>Student List</h1>
+<div class="toolbar">
+    <button onclick="window.location.href='/students/add'">Add Student</button>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by code or name" />
+        <button onclick="searchStudents()">Search</button>
+    </div>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Student Code</th>
+        <th>Full Name</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.studentId}"></td>
+        <td th:text="${student.studentCode}"></td>
+        <td th:text="${student.studentFullname}"></td>
+        <td th:text="${student.studentBirthdate}"></td>
+        <td th:text="${student.studentGender}"></td>
+        <td th:text="${student.studentPhone}"></td>
+        <td th:text="${student.studentEmail}"></td>
+        <td>
+            <a th:href="@{/students/edit/{id}(id=${student.studentId})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/students/delete/{id}(id=${student.studentId})}"
+               onclick="return confirm('Are you sure you want to delete this student?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/user/dashboard">Back to Dashboard</a>
+
+<script>
+    function searchStudents() {
+        const searchInput = document.getElementById("searchInput").value;
+        window.location.href = `/students/search?query=${searchInput}`;
+    }
+</script>
+</body>
+</html>

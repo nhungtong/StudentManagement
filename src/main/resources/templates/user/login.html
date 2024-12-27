@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>User Login</h1>
-<form th:action="@{user/login}" method="POST">
+<form th:action="@{/login}" method="POST">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required/>
     <br>
@@ -15,6 +15,7 @@
     <br>
     <button type="submit">Login</button>
 </form>
+<a href="/user/register">Register a account</a>
 <p th:if="${error}" th:text="${error}" style="color: red;"></p>
 </body>
 </html>

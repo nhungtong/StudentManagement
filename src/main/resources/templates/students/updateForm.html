@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Student</title>
+</head>
+<body>
+<h1>Add Student</h1>
+<form th:action="@{/students/edit/{id}(id=${student.studentId})}" method="post">
+    <div>
+        <label for="studentCode">Student Code</label>
+        <input type="text" id="studentCode" name="studentCode" th:value="${student.getStudentCode()}" required />
+    </div>
+    <div>
+        <label for="studentFullname">Full Name</label>
+        <input type="text" id="studentFullname" name="studentFullname" th:value="${student.getStudentFullname()}" required />
+    </div>
+    <div>
+        <label for="studentBirthdate">Date of Birth</label>
+        <input type="date" id="studentBirthdate" name="studentBirthdate" th:value="${student.getStudentBirthdate()}" required />
+    </div>
+    <div>
+        <label for="studentGender">Gender</label>
+        <select id="studentGender" name="studentGender" th:value="${student.getStudentGender()}">
+            <option value="Male" th:selected="*{studentGender == 'Male'}">Male</option>
+            <option value="Female" th:selected="*{studentGender == 'Female'}">Female</option>
+        </select>
+    </div>
+    <div>
+        <label for="studentPhone">Phone</label>
+        <input type="text" id="studentPhone" name="studentPhone" th:value="${student.getStudentPhone()}" required />
+    </div>
+    <div>
+        <label for="studentEmail">Email</label>
+        <input type="email" id="studentEmail" name="studentEmail" th:value="${student.getStudentEmail()}" required />
+    </div>
+    <button type="submit">Update</button>
+</form>
+    <a href="/students/list">Back to Student List</a>
+</body>
+</html>

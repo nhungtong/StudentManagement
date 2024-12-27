@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile</title>
+</head>
+<body>
+<h1>Student Profile</h1>
+
+<div>
+  <p><strong>Student Code:</strong> <span th:text="${student.studentCode}"></span></p>
+  <p><strong>Full Name:</strong> <span th:text="${student.studentFullname}"></span></p>
+  <p><strong>Date of Birth:</strong> <span th:text="${student.studentBirthdate}"></span></p>
+  <p><strong>Gender:</strong> <span th:text="${student.studentGender}"></span></p>
+  <p><strong>Phone:</strong> <span th:text="${student.studentPhone}"></span></p>
+  <p><strong>Email:</strong> <span th:text="${student.studentEmail}"></span></p>
+</div>
+<a href="/user/dashboard">Back to Dashboard</a>
+</body>
+</html>

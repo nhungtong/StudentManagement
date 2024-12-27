@@ -1,6 +1,10 @@
 package com.sm.studentmanagement.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,9 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -37,7 +44,7 @@ public class UserController {
         }
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
         userService.saveUser(user);
-        return "redirect:/login";
+        return "redirect:/user/login";
     }
 
     @GetMapping("/login")
@@ -46,27 +53,32 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public String handleLogin(HttpServletRequest request, Authentication authentication) {
+    public String handleLogin(HttpServletRequest request, Authentication authentication, Model model) {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/user/dashboard";
         }
+        model.addAttribute("error", "Invalid username or password");
         return "redirect:/login";
     }
 
     @GetMapping("/dashboard")
     public String userDashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByUserName(userName);
-        model.addAttribute("user", user);
-        return "user/dashboard";
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userName = authentication.getName();
+            User user = userService.findByUserName(userName);
+            model.addAttribute("user", user);
+            return "user/dashboard";
+        } else {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/update")
     public String showUpdateForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();  // Lấy tên người dùng hiện tại
-        User user = userService.findByUserName(userName);  // Tìm người dùng từ cơ sở dữ liệu
+        String userName = authentication.getName();
+        User user = userService.findByUserName(userName);
         model.addAttribute("user", user);
         return "user/update";
     }
@@ -85,5 +97,26 @@ public class UserController {
             throw new IllegalArgumentException("Không tìm thấy người dùng với ID: " + userId);
         }
         return "redirect:/user/dashboard";
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        return "redirect:/user/login";
+    }
+
+    @GetMapping("/management")
+    public String showUserList(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "user/management";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return "redirect:/user/management";
     }
 }

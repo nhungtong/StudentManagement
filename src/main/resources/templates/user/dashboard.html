@@ -3,12 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
+  <style>
+    .dashboard-header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #333;
+      color: white;
+      padding: 5px;
+      margin: 20px;
+    }
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    .role-link
+    {
+      color: black;
+    }
+  </style>
 </head>
 <body>
-<h1>Chào mừng</h1>
-<p>Tên người dùng của bạn là: <span th:text="${user.getUserName()}">Username</span></p>
-<p>Vai trò của bạn là: <span th:text="${user.getUserRole()}">Role</span>
-  <br>
-  <a href="/user/update" class="btn btn-primary">Cập nhật thông tin cá nhân</a>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <p>Hello, <span th:text="${user.getUserName()}"></span></p>
+    <p>Role: <span th:text="${user.getUserRole()}"></span></p>
+    <a href="/user/update">Update Your Profile</a>
+    <a href="/logout">Logout</a>
+  </div>
+  <div class="roles-section">
+    <div th:if="${user.getUserRole() == 'ADMIN'}">
+      <h3>Admin Dashboard</h3>
+      <a class="role-link" href="/user/management">Manage Users</a><br>
+      <a class="role-link" href="/students/list">View Students</a><br>
+      <a class="role-link" href="/classes">View Classes</a>
+    </div>
+    <div th:if="${user.getUserRole() == 'STAFF'}">
+      <h3>Staff Dashboard</h3>
+      <a class="role-link" href="/students/list">View Students</a><br>
+    </div>
+    <div th:if="${user.getUserRole() == 'STUDENT'}">
+      <h3>Student Dashboard</h3>
+      <a class="role-link" href="/students/viewProfile">View Your Profile</a>
+    </div>
+  </div>
+</div>
 </body>
 </html>
