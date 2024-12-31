@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Student Statistics by Class</h2>
+    <canvas id="studentChart"></canvas>
+</div>
+
+<script th:inline="javascript">
+    const classStudentCounts = /*[[${classStudentCounts}]]*/ {};
+    const classNames = Object.keys(classStudentCounts);
+    const studentCounts = Object.values(classStudentCounts);
+
+    console.log('Class Names:', classNames);
+    console.log('Student Counts:', studentCounts);
+</script>
+<script>
+    const ctx = document.getElementById('studentChart').getContext('2d');
+    if (classNames.length > 0 && studentCounts.length > 0) {
+        const studentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: classNames,
+                datasets: [{
+                    label: 'Number of Students',
+                    data: studentCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } else {
+        console.warn('No data available for the chart.');
+    }
+</script>
+
+
+</body>
+</html>

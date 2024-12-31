@@ -1,17 +1,16 @@
 package com.sm.studentmanagement.controller;
 
 import com.sm.studentmanagement.entity.Student;
-import com.sm.studentmanagement.entity.User;
 import com.sm.studentmanagement.service.StudentService;
+import com.sm.studentmanagement.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +19,9 @@ import java.util.Optional;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/list")
     public String showStudentList(Model model) {
@@ -71,14 +73,11 @@ public class StudentController {
         return "students/list";
     }
 
-    @GetMapping("/students/viewProfile")
-    public String viewStudentProfile(Model model, @AuthenticationPrincipal User user) {
-
-        Optional<Student> student = studentService.getStudentByEmail(user.getUserEmail());
-        if (student.isPresent()) {
-            model.addAttribute("student", student);
-            return "students/viewProfile";
-        }
-        return "redirect:/user/dashboard";
+    @GetMapping("/viewProfile")
+    public String showStudentDetails(Model model, Principal principal) {
+        String username = principal.getName();
+        Student student = userService.getStudentDetails(username);
+        model.addAttribute("student", student);
+        return "students/viewProfile";
     }
 }

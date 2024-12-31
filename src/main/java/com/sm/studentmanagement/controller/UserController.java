@@ -2,8 +2,6 @@ package com.sm.studentmanagement.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
@@ -27,13 +25,11 @@ public class UserController {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    // Trang đăng ký
     @GetMapping("/register")
     public String showRegisterPage() {
         return "user/register";
     }
 
-    // Đăng ký người dùng
     @PostMapping("/register")
     public String registerUser(User user) {
         if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {

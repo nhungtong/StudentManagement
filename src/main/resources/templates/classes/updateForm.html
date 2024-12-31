@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Class</title>
+</head>
+<body>
+<h1>Update Class</h1>
+<form th:action="@{/classes/edit/{id}(id=${classes.classId})}" method="post">
+  <div>
+    <label for="className">Class Name</label>
+    <input type="text" id="className" name="className" th:value="${classes.getClassName()}" required />
+  </div>
+  <div>
+    <label for="classDescription">Class Description</label>
+    <input type="text" id="classDescription" name="classDescription" th:value="${classes.getClassDescription()}" required />
+  </div>
+  <button type="submit">Update</button>
+</form>
+<a href="/classes/list">Back to Class List</a>
+</body>
+</html>

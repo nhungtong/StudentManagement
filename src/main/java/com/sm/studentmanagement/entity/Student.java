@@ -31,6 +31,9 @@ public class Student {
     @Column(name = "email", length = 100)
     private String studentEmail;
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> enrollments;
+
     @ManyToOne
     @JoinColumn(name = "class_id", referencedColumnName = "id", nullable = false)
     private Class studentClass;
@@ -46,12 +49,20 @@ public class Student {
         this.studentClass = studentClass;
     }
 
-    public List<Class> getClasses() {
-        return classes;
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
     }
 
-    public void setClasses(List<Class> classes) {
-        this.classes = classes;
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    public List<Class> getClasses() {
+        return cours;
+    }
+
+    public void setClasses(List<Class> cours) {
+        this.cours = cours;
     }
 
     @ManyToMany
@@ -60,7 +71,7 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id")
     )
-    private List<Class> classes;
+    private List<Class> cours;
 
     public Long getStudentId() {
         return studentId;

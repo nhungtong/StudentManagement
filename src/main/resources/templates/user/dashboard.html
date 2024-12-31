@@ -29,18 +29,20 @@
     <p>Hello, <span th:text="${user.getUserName()}"></span></p>
     <p>Role: <span th:text="${user.getUserRole()}"></span></p>
     <a href="/user/update">Update Your Profile</a>
-    <a href="/logout">Logout</a>
+    <a href="/user/logout">Logout</a>
   </div>
   <div class="roles-section">
     <div th:if="${user.getUserRole() == 'ADMIN'}">
       <h3>Admin Dashboard</h3>
       <a class="role-link" href="/user/management">Manage Users</a><br>
       <a class="role-link" href="/students/list">View Students</a><br>
-      <a class="role-link" href="/classes">View Classes</a>
+      <a class="role-link" href="/classes/list">View Classes</a><br>
+      <a class="role-link" href="/charts/overview">Statistic And Report</a>
     </div>
     <div th:if="${user.getUserRole() == 'STAFF'}">
       <h3>Staff Dashboard</h3>
       <a class="role-link" href="/students/list">View Students</a><br>
+      <a class="role-link" href="/classes/list">View Classes</a><br>
     </div>
     <div th:if="${user.getUserRole() == 'STUDENT'}">
       <h3>Student Dashboard</h3>

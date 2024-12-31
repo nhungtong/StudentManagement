@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Classes List</title>
+</head>
+<body>
+<h1>Classes List</h1>
+<div class="toolbar">
+  <button onclick="window.location.href='/classes/add'">Add Class</button>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by ID or Name" />
+    <button onclick="searchClasses()">Search</button>
+  </div>
+</div>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Class Name</th>
+    <th>Description</th>
+    <th>Detail</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="class : ${classes}">
+    <td th:text="${class.classId}"></td>
+    <td th:text="${class.className}"></td>
+    <td th:text="${class.classDescription}"></td>
+    <td>
+      <a th:href="@{/classes/{id}/students(id=${class.classId})}">View Students In Class</a>
+    </td>
+    <td>
+      <a th:href="@{/classes/edit/{id}(id=${class.classId})}">Edit</a>
+    </td>
+    <td>
+      <a th:href="@{/classes/delete/{id}(id=${class.classId})}"
+         onclick="return confirm('Are you sure you want to delete this student?')">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a href="/user/dashboard">Back to Dashboard</a>
+
+<script>
+  function searchClasses() {
+    const searchInput = document.getElementById("searchInput").value.trim();
+
+    let classIdInput = null;
+    let classNameInput = searchInput;
+
+    if (!isNaN(searchInput) && searchInput !== "") {
+      classIdInput = searchInput;
+      classNameInput = "";
+    }
+
+    const searchUrl = `/classes/search?classId=${classIdInput || ""}&className=${classNameInput || ""}`;
+
+    window.location.href = searchUrl;
+  }
+</script>
+</body>
+</html>

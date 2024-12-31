@@ -2,8 +2,12 @@ package com.sm.studentmanagement.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.sm.studentmanagement.entity.Student;
 import com.sm.studentmanagement.entity.User;
+import com.sm.studentmanagement.repository.StudentRepository;
 import com.sm.studentmanagement.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +26,9 @@ import java.util.Collections;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -71,9 +78,6 @@ public class UserService implements UserDetailsService {
 
     public boolean updateUser(Long userId, String userName, String userPassword, String email, String fullName) {
         User existingUser = findByUserId(userId);
-//        if (existingUser == null) {
-//            throw new IllegalArgumentException("Không tìm thấy người dùng với ID: " + userId);
-//        }
 
         String encodedPassword = (userPassword == null || userPassword.isEmpty()) ?
                 existingUser.getUserPassword() : passwordEncoder.encode(userPassword);
@@ -90,4 +94,9 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(id);
     }
 
+    public Student getStudentDetails(String username) {
+        User user = userRepository.findByUserName(username);
+        return studentRepository.findStudentByEmail(user.getUserEmail())
+                .orElseThrow(() -> new EntityNotFoundException("Student not found for email: " + user.getUserEmail()));
+    }
 }
