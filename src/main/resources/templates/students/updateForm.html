@@ -6,33 +6,39 @@
 </head>
 <body>
 <h1>Update Student</h1>
-<form th:action="@{/students/edit/{id}(id=${student.studentId})}" method="post">
+<form th:action="@{/students/edit}" method="POST">
+<!--<form th:action="@{/students/edit/{id}(id=${student.studentId})}" method="post">-->
+    <input type="hidden" name="id" th:value="${student.studentId}"/>
     <div>
         <label for="studentCode">Student Code</label>
-        <input type="text" id="studentCode" name="studentCode" th:value="${student.getStudentCode()}" required />
+        <input type="text" id="studentCode" name="studentCode" th:value="${student.studentCode}" required />
     </div>
     <div>
         <label for="studentFullname">Full Name</label>
-        <input type="text" id="studentFullname" name="studentFullname" th:value="${student.getStudentFullname()}" required />
+        <input type="text" id="studentFullname" name="fullName" th:value="${student.studentFullname}" required />
     </div>
     <div>
         <label for="studentBirthdate">Date of Birth</label>
-        <input type="date" id="studentBirthdate" name="studentBirthdate" th:value="${student.getStudentBirthdate()}" required />
+        <input type="date" id="studentBirthdate" name="dob" th:value="${student.studentBirthdate}" required />
     </div>
     <div>
         <label for="studentGender">Gender</label>
-        <select id="studentGender" name="studentGender" th:value="${student.getStudentGender()}">
+        <select id="studentGender" name="gender" th:value="${student.studentGender}">
             <option value="Male" th:selected="*{studentGender == 'Male'}">Male</option>
             <option value="Female" th:selected="*{studentGender == 'Female'}">Female</option>
         </select>
     </div>
     <div>
         <label for="studentPhone">Phone</label>
-        <input type="text" id="studentPhone" name="studentPhone" th:value="${student.getStudentPhone()}" required />
+        <input type="text" id="studentPhone" name="phone" th:value="${student.studentPhone}" required />
     </div>
     <div>
         <label for="studentEmail">Email</label>
-        <input type="email" id="studentEmail" name="studentEmail" th:value="${student.getStudentEmail()}" required />
+        <input type="email" id="studentEmail" name="email" th:value="${student.studentEmail}" required />
+    </div>
+    <div>
+        <label for="studentClass">Class ID</label>
+        <input type="number" id="studentClass" name="classId" th:value="${student.studentClass.classId}" required />
     </div>
     <button type="submit">Update</button>
 </form>

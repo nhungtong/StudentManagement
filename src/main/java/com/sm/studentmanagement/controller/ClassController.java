@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +37,14 @@ public class ClassController {
     }
 
     @PostMapping("/add")
-    public String addClass(@Valid Class classObj, BindingResult result)
+    public String addClass(@Valid Class classObj, BindingResult result, RedirectAttributes redirectAttributes)
     {
         if(result.hasErrors())
         {
             return "classes/addForm";
         }
         classService.saveClass(classObj);
+        redirectAttributes.addFlashAttribute("message", "Class added successfully!");
         return "redirect:/classes/list";
     }
 
@@ -57,15 +59,17 @@ public class ClassController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateStudent(@PathVariable("id") Long id, Class classObj) {
+    public String updateStudent(@PathVariable("id") Long id, Class classObj, RedirectAttributes redirectAttributes) {
         classObj.setClassId(id);
         classService.saveClass(classObj);
+        redirectAttributes.addFlashAttribute("message", "Class updated successfully!");
         return "redirect:/classes/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteClass(@PathVariable("id") Long id) {
+    public String deleteClass(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         classService.deleteClass(id);
+        redirectAttributes.addFlashAttribute("message", "Class deleted successfully!");
         return "redirect:/classes/list";
     }
 

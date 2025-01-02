@@ -33,6 +33,10 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    public int updateStudent(Long id, String studentCode, String fullName, LocalDate dob, String gender, String phone, String email, Long classId) {
+        return studentRepository.updateStudent(id, studentCode, fullName, dob, gender, phone, email, classId);
+    }
+
     public void deleteStudent(Long studentId) {
         studentRepository.deleteById(studentId);
     }

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(User user) {
+    public String registerUser(User user, RedirectAttributes redirectAttributes) {
         if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {
             return "user/register";
         }
@@ -39,6 +40,7 @@ public class UserController {
             return "redirect:/user/register?error=usernameExists";
         }
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        redirectAttributes.addFlashAttribute("message", " Register successfully!");
         userService.saveUser(user);
         return "redirect:/user/login";
     }
@@ -48,13 +50,13 @@ public class UserController {
         return "user/login";
     }
 
-    @PostMapping("/user/login")
-    public String handleLogin(HttpServletRequest request, Authentication authentication, Model model) {
+    @PostMapping("/login")
+    public String handleLogin(HttpServletRequest request, Authentication authentication, Model model, RedirectAttributes redirectAttributes) {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/user/dashboard";
         }
-        model.addAttribute("error", "Invalid username or password");
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute("message", "Invalid username or password");
+        return "user/login";
     }
 
     @GetMapping("/dashboard")
@@ -84,7 +86,8 @@ public class UserController {
                               @RequestParam("userName") String userName,
                               @RequestParam("userPassword") String userPassword,
                               @RequestParam("userEmail") String userEmail,
-                              @RequestParam("userFullName") String userFullName) {
+                              @RequestParam("userFullName") String userFullName,
+                              RedirectAttributes redirectAttributes) {
         if (userId == null) {
             throw new IllegalArgumentException("ID người dùng không hợp lệ");
         }
@@ -92,6 +95,7 @@ public class UserController {
         if (!updated) {
             throw new IllegalArgumentException("Không tìm thấy người dùng với ID: " + userId);
         }
+        redirectAttributes.addFlashAttribute("message", "Updated successfully!");
         return "redirect:/user/dashboard";
     }
     @GetMapping("/logout")
@@ -111,8 +115,9 @@ public class UserController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public String deleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         userService.deleteUserById(id);
+        redirectAttributes.addFlashAttribute("message", "Deleted successfully!");
         return "redirect:/user/management";
     }
 }

@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Student List</h1>
+<div th:if="${message}" class="message" th:text="${message}"></div>
 <div class="toolbar">
     <button onclick="window.location.href='/students/add'">Add Student</button>
     <div class="search-bar">
@@ -23,6 +24,7 @@
         <th>Gender</th>
         <th>Phone</th>
         <th>Email</th>
+        <th>Class ID</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -36,8 +38,10 @@
         <td th:text="${student.studentGender}"></td>
         <td th:text="${student.studentPhone}"></td>
         <td th:text="${student.studentEmail}"></td>
+        <td th:text="${student.studentClass.classId}"></td>
         <td>
-            <a th:href="@{/students/edit/{id}(id=${student.studentId})}">Edit</a>
+<!--            <a th:href="@{/students/edit/{id}(id=${student.studentId})}">Edit</a>-->
+            <a th:href="@{/students/edit(id=${student.studentId})}">Update</a>
         </td>
         <td>
             <a th:href="@{/students/delete/{id}(id=${student.studentId})}"

@@ -55,7 +55,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getUserPassword(),
-                getAuthorities(user.getUserRole()) // Role phải chính xác
+                getAuthorities(user.getUserRole())
         );
     }
 

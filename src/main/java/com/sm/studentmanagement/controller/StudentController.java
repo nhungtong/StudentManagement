@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,16 +37,35 @@ public class StudentController {
         return "students/addForm";
     }
     @PostMapping("/add")
-    public String addStudent(@Valid Student student, BindingResult result) {
+    public String addStudent(@Valid Student student, BindingResult result, RedirectAttributes redirectAttributes ) {
         if (result.hasErrors()) {
             return "students/addForm";
         }
         studentService.saveStudent(student);
+        redirectAttributes.addFlashAttribute("message", "Student added successfully!");
         return "redirect:/students/list";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditStudentForm(@PathVariable("id") Long id, Model model) {
+//    @GetMapping("/edit/{id}")
+//    public String showEditStudentForm(@PathVariable("id") Long id, Model model) {
+//        Optional<Student> student = studentService.getStudentById(id);
+//        if (student.isPresent()) {
+//            model.addAttribute("student", student.get());
+//            return "students/updateForm";
+//        }
+//        return "redirect:/students/list";
+//    }
+
+//    @PostMapping("/edit/{id}")
+//    public String updateStudent(@PathVariable("id") Long id, Student student, RedirectAttributes redirectAttributes) {
+//        student.setStudentId(id);
+//        studentService.saveStudent(student);
+//        return "redirect:/students/list";
+//    }
+
+
+    @GetMapping("/edit")
+    public String showEditStudentForm(@RequestParam("id") Long id, Model model) {
         Optional<Student> student = studentService.getStudentById(id);
         if (student.isPresent()) {
             model.addAttribute("student", student.get());
@@ -52,17 +73,32 @@ public class StudentController {
         }
         return "redirect:/students/list";
     }
+    @PostMapping("/edit")
+    public String updateStudent(
+            @RequestParam("id") Long id,
+            @RequestParam("studentCode") String studentCode,
+            @RequestParam("fullName") String fullName,
+            @RequestParam("dob") LocalDate dob,
+            @RequestParam("gender") String gender,
+            @RequestParam("phone") String phone,
+            @RequestParam("email") String email,
+            @RequestParam("classId") Long classId,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
-    @PostMapping("/edit/{id}")
-    public String updateStudent(@PathVariable("id") Long id, Student student) {
-        student.setStudentId(id);
-        studentService.saveStudent(student);
+        int result = studentService.updateStudent(id, studentCode, fullName, dob, gender, phone, email, classId);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("message", "Student updated successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Student update failed. Student not found.");
+        }
         return "redirect:/students/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") Long id) {
+    public String deleteStudent(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         studentService.deleteStudent(id);
+        redirectAttributes.addFlashAttribute("message", "Student deleted successfully!");
         return "redirect:/students/list";
     }
 
