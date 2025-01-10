@@ -2,11 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-  <title>Charts Overview</title>
+    <title>Charts Overview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Overview</h1>
-<a href="/charts/statistics">Student count by class</a><br>
-<a href="/charts/reports">Student Enrollment Report</a>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <h1 class="text-center mb-5">Charts Overview</h1>
+        <div class="list-group mb-4">
+            <a href="/charts/statistics" class="list-group-item list-group-item-action list-group-item-primary rounded-pill mb-3">
+                <i class="bi bi-bar-chart"></i> Student Count by Class
+            </a>
+            <a href="/charts/reports" class="list-group-item list-group-item-action list-group-item-success rounded-pill mb-3">
+                <i class="bi bi-file-earmark-spreadsheet"></i> Student Enrollment Report
+            </a>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="/user/dashboard" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

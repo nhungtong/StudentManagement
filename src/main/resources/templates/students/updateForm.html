@@ -3,45 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Update Student</h1>
-<form th:action="@{/students/edit}" method="POST">
-<!--<form th:action="@{/students/edit/{id}(id=${student.studentId})}" method="post">-->
-    <input type="hidden" name="id" th:value="${student.studentId}"/>
-    <div>
-        <label for="studentCode">Student Code</label>
-        <input type="text" id="studentCode" name="studentCode" th:value="${student.studentCode}" required />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Update Student</h3>
+                </div>
+                <div class="card-body">
+                    <!--<form th:action="@{/students/edit/{id}(id=${student.studentId})}" method="post">-->
+                    <form th:action="@{/students/edit}" method="POST">
+                        <input type="hidden" name="id" th:value="${student.studentId}" />
+                        <div class="mb-3">
+                            <label for="studentCode" class="form-label">Student Code</label>
+                            <input type="text" id="studentCode" name="studentCode" class="form-control" th:value="${student.studentCode}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentFullname" class="form-label">Full Name</label>
+                            <input type="text" id="studentFullname" name="fullName" class="form-control" th:value="${student.studentFullname}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentBirthdate" class="form-label">Date of Birth</label>
+                            <input type="date" id="studentBirthdate" name="dob" class="form-control" th:value="${student.studentBirthdate}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentGender" class="form-label">Gender</label>
+                            <select id="studentGender" name="gender" class="form-select" th:value="${student.studentGender}">
+                                <option value="Male" th:selected="*{studentGender == 'Male'}">Male</option>
+                                <option value="Female" th:selected="*{studentGender == 'Female'}">Female</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentPhone" class="form-label">Phone</label>
+                            <input type="text" id="studentPhone" name="phone" class="form-control" th:value="${student.studentPhone}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentEmail" class="form-label">Email</label>
+                            <input type="email" id="studentEmail" name="email" class="form-control" th:value="${student.studentEmail}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentClass" class="form-label">Class ID</label>
+                            <input type="number" id="studentClass" name="classId" class="form-control" th:value="${student.studentClass.classId}" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="studentFullname">Full Name</label>
-        <input type="text" id="studentFullname" name="fullName" th:value="${student.studentFullname}" required />
-    </div>
-    <div>
-        <label for="studentBirthdate">Date of Birth</label>
-        <input type="date" id="studentBirthdate" name="dob" th:value="${student.studentBirthdate}" required />
-    </div>
-    <div>
-        <label for="studentGender">Gender</label>
-        <select id="studentGender" name="gender" th:value="${student.studentGender}">
-            <option value="Male" th:selected="*{studentGender == 'Male'}">Male</option>
-            <option value="Female" th:selected="*{studentGender == 'Female'}">Female</option>
-        </select>
-    </div>
-    <div>
-        <label for="studentPhone">Phone</label>
-        <input type="text" id="studentPhone" name="phone" th:value="${student.studentPhone}" required />
-    </div>
-    <div>
-        <label for="studentEmail">Email</label>
-        <input type="email" id="studentEmail" name="email" th:value="${student.studentEmail}" required />
-    </div>
-    <div>
-        <label for="studentClass">Class ID</label>
-        <input type="number" id="studentClass" name="classId" th:value="${student.studentClass.classId}" required />
-    </div>
-    <button type="submit">Update</button>
-</form>
-    <a href="/students/list">Back to Student List</a>
+</div>
+<a href="/students/list" class="btn btn-secondary mb-3">Back to Student List</a>
 </body>
 </html>

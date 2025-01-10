@@ -3,51 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
-  <style>
-    .dashboard-header{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #333;
-      color: white;
-      padding: 5px;
-      margin: 20px;
-    }
-    a {
-      color: white;
-      text-decoration: none;
-    }
-    .role-link
-    {
-      color: black;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="dashboard">
-  <div class="dashboard-header">
-    <p>Hello, <span th:text="${user.getUserName()}"></span></p>
-    <p>Role: <span th:text="${user.getUserRole()}"></span></p>
-    <a href="/user/update">Update Your Profile</a>
-    <a href="/user/logout">Logout</a>
+<div class="container mt-4">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3 rounded">
+    <div>
+      <p class="mb-0">Hello, <span th:text="${user.getUserName()}"></span></p>
+      <p class="mb-0">Role: <span th:text="${user.getUserRole()}"></span></p>
+    </div>
+    <div>
+      <a href="/user/update" class="btn btn-outline-light btn-sm me-2">Update Profile</a>
+      <a href="/user/logout" class="btn btn-outline-light btn-sm">Logout</a>
+    </div>
   </div>
-  <div th:if="${message}" class="message" th:text="${message}"></div>
-  <div class="roles-section">
-    <div th:if="${user.getUserRole() == 'ADMIN'}">
-      <h3>Admin Dashboard</h3>
-      <a class="role-link" href="/user/management">Manage Users</a><br>
-      <a class="role-link" href="/students/list">View Students</a><br>
-      <a class="role-link" href="/classes/list">View Classes</a><br>
-      <a class="role-link" href="/charts/overview">Statistic And Report</a>
+
+  <div th:if="${message}" class="alert mt-3" role="alert" th:text="${message}"></div>
+
+  <div class="mt-4">
+    <div th:if="${user.getUserRole() == 'ADMIN'}" class="card shadow-sm mb-4">
+      <div class="card-header">
+        <h3 class="mb-0">Admin Dashboard</h3>
+      </div>
+      <div class="card-body">
+        <a href="/user/management" class="btn w-100 mb-2">Manage Users</a>
+        <a href="/students/list" class="btn w-100 mb-2">View Students</a>
+        <a href="/classes/list" class="btn w-100 mb-2">View Classes</a>
+        <a href="/charts/overview" class="btn w-100">Statistic And Report</a>
+      </div>
     </div>
-    <div th:if="${user.getUserRole() == 'STAFF'}">
-      <h3>Staff Dashboard</h3>
-      <a class="role-link" href="/students/list">View Students</a><br>
-      <a class="role-link" href="/classes/list">View Classes</a><br>
+
+    <div th:if="${user.getUserRole() == 'STAFF'}" class="card shadow-sm mb-4">
+      <div class="card-header">
+        <h3 class="mb-0">Staff Dashboard</h3>
+      </div>
+      <div class="card-body">
+        <a href="/students/list" class="btn w-100 mb-2">View Students</a>
+        <a href="/classes/list" class="btn w-100">View Classes</a>
+      </div>
     </div>
-    <div th:if="${user.getUserRole() == 'STUDENT'}">
-      <h3>Student Dashboard</h3>
-      <a class="role-link" href="/students/viewProfile">View Your Profile</a>
+
+    <div th:if="${user.getUserRole() == 'STUDENT'}" class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="mb-0">Student Dashboard</h3>
+      </div>
+      <div class="card-body">
+        <a href="/students/viewProfile" class="btn w-100">View Your Profile</a>
+      </div>
     </div>
   </div>
 </div>

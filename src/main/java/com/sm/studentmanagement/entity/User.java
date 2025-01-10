@@ -30,7 +30,7 @@ public class User{
     @Column(name = "email", unique = true, length = 100)
     private String userEmail;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public Long getUserId() {
